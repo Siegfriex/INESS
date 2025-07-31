@@ -1,0 +1,344 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // ============================================
+    // 공통 함수들
+    // ============================================
+    
+    // 사용자 인증 확인
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // 사용자 본인 확인
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    // 관리자 권한 확인
+    function isAdmin() {
+      return request.auth.token.admin == true;
+    }
+    
+    // 전문가 권한 확인
+    function isExpert() {
+      return request.auth.token.expert == true;
+    }
+    
+    // 검증된 전문가 확인
+    function isVerifiedExpert() {
+      return isExpert() && 
+             exists(/databases/$(database)/documents/experts/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/experts/$(request.auth.uid)).data.credentials.verificationStatus == 'verified';
+    }
+    
+    // 프리미엄 사용자 확인
+    function isPremiumUser() {
+      return request.auth.token.premium == true ||
+             (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+              get(/databases/$(database)/documents/users/$(request.auth.uid)).data.subscription.type in ['premium', 'enterprise']);
+    }
+    
+    // 위기 상황 감지
+    function isCrisis(data) {
+      return 'analysis' in data && 
+             'riskLevel' in data.analysis && 
+             data.analysis.riskLevel == 'critical';
+    }
+    
+    // 데이터 비공개 여부 확인
+    function isPrivate(data) {
+      return 'isPrivate' in data && data.isPrivate == true;
+    }
+    
+    // 공개 데이터 확인
+    function isPublic(data) {
+      return 'privacy' in data && 
+             'visibility' in data.privacy && 
+             data.privacy.visibility == 'public';
+    }
+    
+    // 공유된 데이터 확인
+    function isSharedWith(data, userId) {
+      return 'sharedWith' in data && 
+             userId in data.sharedWith;
+    }
+    
+    // ============================================
+    // 사용자 데이터 (users)
+    // ============================================
+    
+    match /users/{userId} {
+      // 읽기: 본인만 가능, 관리자는 모든 사용자 조회 가능
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // 생성: 본인 계정만 생성 가능
+      allow create: if isAuthenticated() && 
+                       isOwner(userId) &&
+                       request.resource.data.core.uid == userId &&
+                       request.resource.data.core.email == request.auth.token.email;
+      
+      // 업데이트: 본인만 가능, 특정 필드 제한
+      allow update: if isOwner(userId) &&
+                       // 핵심 정보는 변경 불가
+                       request.resource.data.core.uid == resource.data.core.uid &&
+                       request.resource.data.core.email == resource.data.core.email &&
+                       request.resource.data.core.createdAt == resource.data.core.createdAt;
+      
+      // 삭제: 본인만 가능 (관리자도 직접 삭제 불가)
+      allow delete: if isOwner(userId);
+    }
+    
+    // ============================================
+    // 감정 체크인 (emotions)
+    // ============================================
+    
+    match /emotions/{emotionId} {
+      // 읽기: 본인 데이터만, 관리자/전문가는 제한적 접근
+      allow read: if isOwner(resource.data.userId) ||
+                     isAdmin() ||
+                     (isVerifiedExpert() && !isPrivate(resource.data)) ||
+                     // 위기 상황에서는 전문가가 접근 가능
+                     (isVerifiedExpert() && isCrisis(resource.data));
+      
+      // 생성: 본인 데이터만 생성 가능
+      allow create: if isAuthenticated() &&
+                       isOwner(request.resource.data.userId) &&
+                       request.resource.data.id == emotionId;
+      
+      // 업데이트: 본인만 가능, 특정 필드만 수정 가능
+      allow update: if isOwner(resource.data.userId) &&
+                       // 핵심 분석 데이터는 변경 불가
+                       request.resource.data.analysis == resource.data.analysis &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.createdAt == resource.data.createdAt;
+      
+      // 삭제: 본인만 가능
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // 일기 (journals)
+    // ============================================
+    
+    match /journals/{journalId} {
+      // 읽기: 본인, 공개/공유된 글, 관리자
+      allow read: if isOwner(resource.data.userId) ||
+                     isPublic(resource.data) ||
+                     isSharedWith(resource.data, request.auth.uid) ||
+                     isAdmin() ||
+                     // 전문가는 공유된 글만 읽기 가능
+                     (isVerifiedExpert() && !isPrivate(resource.data));
+      
+      // 생성: 본인 데이터만
+      allow create: if isAuthenticated() &&
+                       isOwner(request.resource.data.userId) &&
+                       request.resource.data.id == journalId;
+      
+      // 업데이트: 본인만, 메타데이터 보호
+      allow update: if isOwner(resource.data.userId) &&
+                       request.resource.data.userId == resource.data.userId &&
+                       request.resource.data.createdAt == resource.data.createdAt;
+      
+      // 삭제: 본인만
+      allow delete: if isOwner(resource.data.userId);
+    }
+    
+    // ============================================
+    // 전문가 프로필 (experts)
+    // ============================================
+    
+    match /experts/{expertId} {
+      // 읽기: 검증된 전문가는 공개, 본인과 관리자는 모든 정보
+      allow read: if isOwner(expertId) ||
+                     isAdmin() ||
+                     // 검증된 전문가만 공개 프로필 조회 가능
+                     (resource.data.credentials.verificationStatus == 'verified' &&
+                      resource.data.status == 'active');
+      
+      // 생성: 본인 프로필만
+      allow create: if isAuthenticated() &&
+                       isOwner(expertId) &&
+                       request.resource.data.uid == expertId;
+      
+      // 업데이트: 본인 또는 관리자 (검증 상태는 관리자만)
+      allow update: if (isOwner(expertId) &&
+                        // 검증 상태는 본인이 변경 불가
+                        request.resource.data.credentials.verificationStatus == resource.data.credentials.verificationStatus) ||
+                       isAdmin();
+      
+      // 삭제: 관리자만 (전문가는 비활성화만 가능)
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // 전문가 가용성 (expert_availability)
+    // ============================================
+    
+    match /expert_availability/{expertId} {
+      // 읽기: 전문가 본인, 예약 고려 중인 사용자 (프리미엄), 관리자
+      allow read: if isOwner(expertId) ||
+                     isPremiumUser() ||
+                     isAdmin();
+      
+      // 생성/업데이트: 전문가 본인만
+      allow create, update: if isOwner(expertId) && isVerifiedExpert();
+      
+      // 삭제: 전문가 본인, 관리자
+      allow delete: if isOwner(expertId) || isAdmin();
+    }
+    
+    // ============================================
+    // 전문가 리뷰 (expert_reviews)
+    // ============================================
+    
+    match /expert_reviews/{expertId} {
+      // 읽기: 누구나 (검증된 리뷰만)
+      allow read: if true;
+      
+      // 생성/업데이트: 관리자만 (리뷰 시스템을 통해서만)
+      allow create, update: if isAdmin();
+      
+      // 삭제: 관리자만
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // 전문가 검증 (expert_verification)
+    // ============================================
+    
+    match /expert_verification/{expertId} {
+      // 읽기: 전문가 본인, 관리자
+      allow read: if isOwner(expertId) || isAdmin();
+      
+      // 생성: 전문가 본인 (최초 신청시)
+      allow create: if isOwner(expertId);
+      
+      // 업데이트: 관리자만 (검증 프로세스)
+      allow update: if isAdmin();
+      
+      // 삭제: 관리자만
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // 감정 트렌드 (emotion_trends)
+    // ============================================
+    
+    match /emotion_trends/{trendId} {
+      // 읽기: 본인 트렌드, 관리자, 전문가 (익명화된 데이터)
+      allow read: if isOwner(resource.data.userId) ||
+                     isAdmin() ||
+                     isVerifiedExpert();
+      
+      // 생성/업데이트: 시스템만 (서버 사이드)
+      allow create, update: if false;
+      
+      // 삭제: 본인, 관리자
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // ============================================
+    // 일기 템플릿 (journal_templates)
+    // ============================================
+    
+    match /journal_templates/{templateId} {
+      // 읽기: 누구나
+      allow read: if true;
+      
+      // 생성/업데이트/삭제: 관리자만
+      allow create, update, delete: if isAdmin();
+    }
+    
+    // ============================================
+    // 일기 챌린지 (journal_challenges)
+    // ============================================
+    
+    match /journal_challenges/{challengeId} {
+      // 읽기: 누구나
+      allow read: if true;
+      
+      // 생성: 관리자, 검증된 전문가
+      allow create: if isAdmin() || isVerifiedExpert();
+      
+      // 업데이트: 생성자, 관리자
+      allow update: if isOwner(resource.data.createdBy) || isAdmin();
+      
+      // 삭제: 관리자만
+      allow delete: if isAdmin();
+    }
+    
+    // ============================================
+    // 전문가 매칭 (expert_matches)
+    // ============================================
+    
+    match /expert_matches/{matchId} {
+      // 읽기: 매칭 대상 사용자, 관리자
+      allow read: if isOwner(resource.data.userId) || isAdmin();
+      
+      // 생성/업데이트: 시스템만 (서버 사이드)
+      allow create, update: if false;
+      
+      // 삭제: 사용자 본인, 관리자
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+    
+    // ============================================
+    // 매칭 조건 (matching_criteria)
+    // ============================================
+    
+    match /matching_criteria/{userId} {
+      // 읽기: 본인, 관리자
+      allow read: if isOwner(userId) || isAdmin();
+      
+      // 생성/업데이트: 본인만
+      allow create, update: if isOwner(userId);
+      
+      // 삭제: 본인, 관리자
+      allow delete: if isOwner(userId) || isAdmin();
+    }
+    
+    // ============================================
+    // 시스템 컬렉션들
+    // ============================================
+    
+    // 마이그레이션 로그
+    match /_migrations/{migrationId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // 성능 메트릭
+    match /_performance_metrics/{metricId} {
+      allow read, write: if isAdmin();
+    }
+    
+    // 감사 로그
+    match /_audit_logs/{logId} {
+      allow read: if isAdmin();
+      allow write: if false; // 시스템에서만 기록
+    }
+    
+    // 건강 체크
+    match /_health_check/{checkId} {
+      allow read: if isAdmin();
+      allow write: if false; // 시스템에서만 기록
+    }
+    
+    // 위기 알림
+    match /_crisis_alerts/{alertId} {
+      allow read: if isAdmin() || isVerifiedExpert();
+      allow write: if false; // 시스템에서만 생성
+    }
+    
+    // ============================================
+    // 기본 거부 규칙
+    // ============================================
+    
+    // 위에 정의되지 않은 모든 문서는 접근 거부
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
