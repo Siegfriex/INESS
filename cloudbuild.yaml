@@ -1,3 +1,15 @@
 steps:
 - name: 'ubuntu'
   args: ['echo', 'Hello from Cloud Build! The trigger is working.']
+
+# 로깅 설정 (service_account 사용시 필수)
+options:
+  logging: CLOUD_LOGGING_ONLY
+
+# 빌드 타임아웃
+timeout: '600s'
+
+# 태그 설정
+tags: 
+  - 'iness-build'
+  - 'main-branch'
