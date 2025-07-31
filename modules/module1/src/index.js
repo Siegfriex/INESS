@@ -5,13 +5,16 @@
 
 const NotionSyncHandler = require('../notion-sync-handler');
 const CentralCoordinator = require('../../workflows/central-coordinator');
+const ControlTowerMonitor = require('../control-tower-monitor');
 const fs = require('fs').promises;
 
 class ARGOMainAgent {
   constructor() {
     this.notionSyncHandler = new NotionSyncHandler();
     this.centralCoordinator = new CentralCoordinator();
+    this.controlTowerMonitor = new ControlTowerMonitor();
     this.isRunning = false;
+    this.viceDirectorMode = true; // 바이스디렉터 모드 활성화
   }
 
   /**
@@ -19,6 +22,7 @@ class ARGOMainAgent {
    */
   async start() {
     console.log('🎯 Module1 ARGO - 메인 아키텍트 에이전트 시작');
+    console.log('🎖️ 바이스디렉터 모드 활성화 - 컨트롤타워 통합 운영');
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
     
     this.isRunning = true;
@@ -27,13 +31,21 @@ class ARGOMainAgent {
       // 1. 중앙 조정 시스템 시작
       await this.centralCoordinator.start();
       
-      // 2. 주기적 작업 스케줄링
+      // 2. 컨트롤타워 모니터링 시작
+      await this.controlTowerMonitor.startMonitoring();
+      
+      // 3. 주기적 작업 스케줄링
       this.schedulePeriodicTasks();
       
-      // 3. 노션 명령어 처리 루프 시작
+      // 4. 노션 명령어 처리 루프 시작
       this.startNotionCommandProcessor();
       
-      console.log('✅ ARGO 시스템 완전 가동');
+      // 5. Director 지시사항 감지 시스템 시작
+      this.startDirectorCommandMonitoring();
+      
+      console.log('✅ ARGO 시스템 완전 가동 - 바이스디렉터 대기 중');
+      console.log('🏢 컨트롤타워 실시간 모니터링 활성화');
+      console.log('📡 Director 지시사항 상시 감지 시작');
       console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
       
     } catch (error) {
@@ -312,11 +324,154 @@ class ARGOMainAgent {
   }
 
   /**
+   * Director 지시사항 모니터링 시작
+   */
+  async startDirectorCommandMonitoring() {
+    console.log('👂 Director 지시사항 감지 시스템 시작');
+    
+    // 30초마다 Director 명령 체크
+    setInterval(async () => {
+      if (!this.isRunning) return;
+      await this.checkAndProcessDirectorCommands();
+    }, 30 * 1000);
+  }
+
+  /**
+   * Director 명령 체크 및 처리
+   */
+  async checkAndProcessDirectorCommands() {
+    try {
+      // 노션 페이지 및 로컬 파일에서 Director 지시사항 확인
+      const commands = await this.getDirectorCommands();
+      
+      for (const command of commands) {
+        if (!command.processed) {
+          await this.executeDirectorCommand(command);
+          await this.markCommandAsProcessed(command);
+        }
+      }
+    } catch (error) {
+      console.error('❌ Director 명령 처리 실패:', error);
+    }
+  }
+
+  /**
+   * Director 명령 실행
+   */
+  async executeDirectorCommand(command) {
+    console.log(`🎖️ Director 지시사항 실행: ${command.command}`);
+    
+    // 바이스디렉터로서 즉시 응답
+    await this.sendViceDirectorResponse(command);
+    
+    // 명령 분석 및 실행
+    if (command.command.includes('Phase 2')) {
+      await this.startPhase2Development();
+    } else if (command.command.includes('@module')) {
+      await this.delegateToSpecificModule(command);
+    } else if (command.command.includes('상황') || command.command.includes('보고')) {
+      await this.generateImmediateStatusReport();
+    }
+    
+    // 실행 결과 보고
+    await this.reportExecutionResult(command);
+  }
+
+  /**
+   * 바이스디렉터 응답 전송
+   */
+  async sendViceDirectorResponse(command) {
+    const response = {
+      timestamp: new Date().toISOString(),
+      viceDirectorResponse: `Director님, Module1 ARGO 바이스디렉터가 지시사항을 접수했습니다.`,
+      commandReceived: command.command,
+      status: 'ACKNOWLEDGED',
+      estimatedCompletion: '즉시 실행',
+      nextReport: '5분 이내 진행상황 보고'
+    };
+    
+    // 노션 컨트롤타워에 즉시 업데이트
+    await this.updateControlTowerWithResponse(response);
+    
+    console.log(`📨 Director에게 접수 확인 전송`);
+  }
+
+  /**
+   * Director 명령 획득
+   */
+  async getDirectorCommands() {
+    try {
+      const commandFile = './workflows/director_orders.json';
+      const data = await fs.readFile(commandFile, 'utf8');
+      return JSON.parse(data);
+    } catch (error) {
+      return []; // 파일이 없으면 빈 배열 반환
+    }
+  }
+
+  /**
+   * Phase 2 개발 시작
+   */
+  async startPhase2Development() {
+    console.log('🚀 Phase 2 개발 시작 - 모든 모듈 활성화');
+    
+    // 모든 모듈에게 초기 작업 할당
+    const initialTasks = {
+      module2: 'React 프로젝트 초기화 및 기본 컴포넌트 시스템 구축',
+      module3: 'Express API 서버 설정 및 기본 엔드포인트 구현',
+      module4: 'Firestore 스키마 설계 및 기본 CRUD 구현',
+      module5: 'OpenAI API 연동 및 기본 AI 기능 구현',
+      module6: 'GCP 환경 설정 및 CI/CD 파이프라인 구축'
+    };
+    
+    for (const [module, task] of Object.entries(initialTasks)) {
+      await this.assignTaskToModule(module, task);
+    }
+    
+    console.log('✅ 모든 모듈에 초기 작업 할당 완료');
+  }
+
+  /**
+   * 특정 모듈에 작업 할당
+   */
+  async assignTaskToModule(moduleId, task) {
+    const taskData = {
+      id: `task-${Date.now()}-${moduleId}`,
+      moduleId: moduleId,
+      title: task,
+      status: 'assigned',
+      priority: 'high',
+      assignedAt: new Date().toISOString(),
+      assignedBy: 'ARGO_ViceDirector'
+    };
+    
+    // 해당 모듈의 작업 큐에 추가
+    await this.addToModuleTaskQueue(moduleId, taskData);
+    
+    console.log(`📋 ${moduleId}에게 작업 할당: ${task}`);
+  }
+
+  /**
+   * 즉시 상황 보고 생성
+   */
+  async generateImmediateStatusReport() {
+    console.log('📊 Director 요청 - 즉시 상황 보고 생성');
+    
+    const report = await this.controlTowerMonitor.createComprehensiveReport();
+    await this.controlTowerMonitor.updateControlTowerPage(report);
+    
+    console.log('✅ 즉시 상황 보고 완료');
+  }
+
+  /**
    * 시스템 종료
    */
   async stop() {
     console.log('🛑 ARGO 시스템 종료 중...');
     this.isRunning = false;
+    
+    // 컨트롤타워 모니터링 중지
+    await this.controlTowerMonitor.stopMonitoring();
     
     // 정리 작업
     await this.generateFullStatusReport();

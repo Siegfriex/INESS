@@ -1,0 +1,24 @@
+[
+  {
+    "id": "order-001",
+    "timestamp": "2025-01-31T16:25:00.000Z",
+    "command": "@module1 Phase 2를 즉시 시작해",
+    "priority": "critical",
+    "source": "Director",
+    "processed": false,
+    "processedAt": null,
+    "executionPlan": null,
+    "result": null
+  },
+  {
+    "id": "order-template",
+    "timestamp": "ISO timestamp",
+    "command": "Director 지시사항 텍스트",
+    "priority": "critical|high|medium|low",
+    "source": "Director",
+    "processed": false,
+    "processedAt": null,
+    "executionPlan": "생성될 실행 계획",
+    "result": "실행 결과"
+  }
+]
