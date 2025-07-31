@@ -17,6 +17,78 @@
       "active": true,
       "priority": "high",
       "auto_start": true
+    },
+    {
+      "id": "module3",
+      "name": "Module3 Backend Agent",
+      "description": "백엔드 API 개발 전담 AI 에이전트 - Node.js, Express, Firebase Functions",
+      "role": "backend_developer",
+      "capabilities": [
+        "api_development",
+        "database_integration",
+        "authentication",
+        "server_architecture",
+        "performance_optimization",
+        "security"
+      ],
+      "workspace": "modules/module3",
+      "active": true,
+      "priority": "high",
+      "auto_start": true
+    },
+    {
+      "id": "module4",
+      "name": "Module4 Database Agent",
+      "description": "데이터베이스 관리 전담 AI 에이전트 - Firestore, 데이터 모델링, 최적화",
+      "role": "database_architect",
+      "capabilities": [
+        "data_modeling",
+        "query_optimization",
+        "schema_design",
+        "data_migration",
+        "backup_strategy",
+        "performance_tuning"
+      ],
+      "workspace": "modules/module4",
+      "active": true,
+      "priority": "high",
+      "auto_start": true
+    },
+    {
+      "id": "module5",
+      "name": "Module5 AI Integration Agent",
+      "description": "AI 서비스 통합 전담 AI 에이전트 - OpenAI API, 머신러닝, 자연어처리",
+      "role": "ai_specialist",
+      "capabilities": [
+        "ai_api_integration",
+        "natural_language_processing",
+        "machine_learning",
+        "prompt_engineering",
+        "ai_workflow_design",
+        "model_optimization"
+      ],
+      "workspace": "modules/module5",
+      "active": true,
+      "priority": "high",
+      "auto_start": true
+    },
+    {
+      "id": "module6",
+      "name": "Module6 DevOps Agent",
+      "description": "DevOps 및 배포 전담 AI 에이전트 - GCP, CI/CD, 모니터링, 인프라",
+      "role": "devops_engineer",
+      "capabilities": [
+        "ci_cd_pipeline",
+        "cloud_infrastructure",
+        "monitoring",
+        "security",
+        "automation",
+        "performance_monitoring"
+      ],
+      "workspace": "modules/module6",
+      "active": true,
+      "priority": "high",
+      "auto_start": true
     }
   ],
   "global_settings": {

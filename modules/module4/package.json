@@ -1,0 +1,63 @@
+{
+  "name": "module4-database-agent",
+  "version": "1.0.0",
+  "description": "데이터베이스 관리 전담 AI 에이전트 모듈",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "lint": "eslint src --ext ts --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts --fix",
+    "type-check": "tsc --noEmit",
+    "db:migrate": "tsx src/migrations/migrate.ts",
+    "db:seed": "tsx src/seeds/seed.ts",
+    "db:backup": "tsx src/scripts/backup.ts",
+    "db:emulator": "firebase emulators:start --only firestore"
+  },
+  "dependencies": {
+    "firebase-admin": "^11.5.0",
+    "firebase": "^9.17.1",
+    "joi": "^17.7.0",
+    "uuid": "^9.0.0",
+    "lodash": "^4.17.21",
+    "date-fns": "^2.29.3"
+  },
+  "devDependencies": {
+    "@types/node": "^18.14.2",
+    "@types/uuid": "^9.0.1",
+    "@types/lodash": "^4.14.191",
+    "@typescript-eslint/eslint-plugin": "^5.54.0",
+    "@typescript-eslint/parser": "^5.54.0",
+    "eslint": "^8.35.0",
+    "typescript": "^4.9.5",
+    "tsx": "^3.12.3",
+    "jest": "^29.4.3",
+    "@types/jest": "^29.4.0",
+    "@firebase/rules-unit-testing": "^2.0.6"
+  },
+  "keywords": [
+    "database",
+    "firestore",
+    "data-modeling",
+    "firebase",
+    "typescript",
+    "ai-agent"
+  ],
+  "author": "Module4 Database Agent",
+  "license": "MIT",
+  "agent_config": {
+    "type": "database_architect",
+    "auto_start": true,
+    "workspace": "modules/module4",
+    "responsibilities": [
+      "데이터베이스 설계",
+      "스키마 관리",
+      "쿼리 최적화",
+      "데이터 모델링"
+    ]
+  }
+}
