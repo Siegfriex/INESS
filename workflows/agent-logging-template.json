@@ -1,0 +1,52 @@
+{
+  "agent_activity_log_template": {
+    "agent_id": "moduleX",
+    "timestamp": "2025-01-31T15:59:00.000Z",
+    "session_id": "uuid-session-id",
+    "activity_type": "task_start|task_progress|task_complete|error|collaboration",
+    "task": {
+      "id": "task-uuid",
+      "title": "작업 제목",
+      "description": "작업 상세 설명",
+      "priority": "high|medium|low",
+      "status": "pending|in_progress|completed|failed|blocked",
+      "progress_percentage": 0
+    },
+    "details": {
+      "action_taken": "수행한 구체적 작업",
+      "files_modified": ["file1.ts", "file2.json"],
+      "lines_changed": 150,
+      "dependencies": ["module2", "module3"],
+      "next_steps": ["다음에 할 일 1", "다음에 할 일 2"]
+    },
+    "performance": {
+      "execution_time_ms": 5000,
+      "memory_usage_mb": 120,
+      "cpu_usage_percent": 15
+    },
+    "communication": {
+      "reported_to": ["ARGO"],
+      "collaborated_with": ["module3", "module4"],
+      "requests_sent": [],
+      "responses_received": []
+    },
+    "errors": {
+      "error_count": 0,
+      "error_messages": [],
+      "warnings": [],
+      "resolutions": []
+    },
+    "git_status": {
+      "commit_requested": false,
+      "files_staged": [],
+      "commit_message": "",
+      "branch": "feature/module-work"
+    },
+    "notion_sync": {
+      "should_sync": true,
+      "task_database_update": true,
+      "communication_log_update": true,
+      "custom_updates": []
+    }
+  }
+}

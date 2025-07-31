@@ -1,6 +1,30 @@
 {
   "agents": [
     {
+      "id": "module1",
+      "name": "Module1 ARGO - Main Architect",
+      "description": "메인 아키텍트 AI 에이전트 - 전체 프로젝트 통제, 노션 통합, 워크플로우 관리",
+      "role": "main_architect",
+      "capabilities": [
+        "project_orchestration",
+        "notion_integration",
+        "workflow_automation",
+        "agent_coordination",
+        "git_management",
+        "monitoring_and_control"
+      ],
+      "workspace": "modules/module1",
+      "active": true,
+      "priority": "critical",
+      "auto_start": true,
+      "permissions": {
+        "notion_access": true,
+        "git_commit_approval": true,
+        "agent_coordination": true,
+        "local_file_access": true
+      }
+    },
+    {
       "id": "module2",
       "name": "Module2 Frontend Agent",
       "description": "프론트엔드 개발 전담 AI 에이전트 - React, UI/UX, 상태관리",
