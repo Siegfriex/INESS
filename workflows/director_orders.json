@@ -1,0 +1,10 @@
+[
+  {
+    "id": "welcome_001", 
+    "command": "Module1 시작 확인",
+    "timestamp": "2025-01-31T20:02:02.000Z",
+    "priority": "normal",
+    "processed": false,
+    "source": "system_init"
+  }
+]
