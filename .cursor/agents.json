@@ -1,0 +1,27 @@
+{
+  "agents": [
+    {
+      "id": "module2",
+      "name": "Module2 Frontend Agent",
+      "description": "프론트엔드 개발 전담 AI 에이전트 - React, UI/UX, 상태관리",
+      "role": "frontend_developer",
+      "capabilities": [
+        "react_development",
+        "ui_ux_design", 
+        "state_management",
+        "component_architecture",
+        "styling_frameworks",
+        "performance_optimization"
+      ],
+      "workspace": "modules/module2",
+      "active": true,
+      "priority": "high",
+      "auto_start": true
+    }
+  ],
+  "global_settings": {
+    "communication_log": "AI 모듈 통신 로그",
+    "task_management": "AI 작업 관리 시스템",
+    "notion_integration": true
+  }
+}
