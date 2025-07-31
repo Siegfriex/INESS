@@ -1,0 +1,297 @@
+{
+  "project": {
+    "name": "마음로그 V2.2",
+    "tagline": "당신의 마음이 피어나는 공간",
+    "vision": "대한민국 1위 멘탈 케어 플랫폼",
+    "mission": "AI 기술과 전문가 네트워크를 통해 모든 사람이 건강한 마음을 가꿀 수 있도록 돕습니다"
+  },
+  
+  "business_model": {
+    "revenue_streams": [
+      {
+        "name": "프리미엄 구독",
+        "type": "B2C",
+        "pricing": {
+          "monthly": 9900,
+          "yearly": 99000,
+          "currency": "KRW"
+        },
+        "features": [
+          "무제한 AI 감정 분석",
+          "전문가 1:1 상담 월 2회",
+          "프리미엄 인사이트 리포트",
+          "가족 계정 연동 (최대 4명)",
+          "광고 제거"
+        ],
+        "target_conversion_rate": 0.08,
+        "estimated_ltv": 297000
+      },
+      {
+        "name": "기업 B2B 솔루션",
+        "type": "B2B2C",
+        "pricing": {
+          "tier1": {
+            "employees": "1-100",
+            "monthly_per_employee": 3000
+          },
+          "tier2": {
+            "employees": "101-500", 
+            "monthly_per_employee": 2500
+          },
+          "tier3": {
+            "employees": "500+",
+            "monthly_per_employee": 2000
+          }
+        },
+        "features": [
+          "직원 멘탈 헬스 대시보드",
+          "익명 상담 서비스",
+          "조직 문화 진단 리포트",
+          "전문 상담사 매칭",
+          "EAP 프로그램 통합"
+        ]
+      },
+      {
+        "name": "전문가 매칭 수수료",
+        "type": "Marketplace",
+        "commission_rate": 0.20,
+        "average_session_price": 80000,
+        "features": [
+          "AI 기반 매칭 알고리즘",
+          "전문가 자격 검증",
+          "안전한 화상 상담 플랫폼",
+          "자동 일정 관리",
+          "보험 청구 지원"
+        ]
+      }
+    ],
+    
+    "cost_structure": {
+      "fixed_costs": {
+        "development_team": {
+          "monthly": 45000000,
+          "headcount": 8
+        },
+        "infrastructure": {
+          "monthly": 5000000,
+          "includes": ["Firebase", "AI API", "CDN", "Monitoring"]
+        },
+        "operations": {
+          "monthly": 15000000,
+          "includes": ["CS", "Marketing", "Legal", "Finance"]
+        }
+      },
+      "variable_costs": {
+        "ai_processing": {
+          "per_1000_requests": 5000,
+          "estimated_monthly_volume": 1000000
+        },
+        "expert_payouts": {
+          "percentage_of_revenue": 0.60
+        },
+        "payment_processing": {
+          "percentage_of_revenue": 0.025
+        }
+      }
+    }
+  },
+  
+  "financial_projections": {
+    "conservative_scenario": {
+      "year_1": {
+        "users": {
+          "total": 15000,
+          "premium": 1200,
+          "enterprise_employees": 2000
+        },
+        "revenue": {
+          "premium_subscriptions": 142800000,
+          "b2b_solutions": 72000000,
+          "expert_commissions": 38400000,
+          "total": 253200000
+        },
+        "expenses": {
+          "fixed": 180000000,
+          "variable": 76000000,
+          "total": 256000000
+        },
+        "net_profit": -2800000,
+        "profit_margin": -0.011,
+        "note": "투자 회수 기간, 적자 예상"
+      },
+      "year_2": {
+        "users": {
+          "total": 35000,
+          "premium": 3500,
+          "enterprise_employees": 8000
+        },
+        "revenue": {
+          "premium_subscriptions": 416400000,
+          "b2b_solutions": 240000000,
+          "expert_commissions": 134400000,
+          "total": 790800000
+        },
+        "expenses": {
+          "fixed": 240000000,
+          "variable": 237000000,
+          "total": 477000000
+        },
+        "net_profit": 313800000,
+        "profit_margin": 0.397
+      },
+      "year_3": {
+        "users": {
+          "total": 80000,
+          "premium": 9600,
+          "enterprise_employees": 20000
+        },
+        "revenue": {
+          "premium_subscriptions": 1142400000,
+          "b2b_solutions": 600000000,
+          "expert_commissions": 384000000,
+          "total": 2126400000
+        },
+        "expenses": {
+          "fixed": 360000000,
+          "variable": 638000000,
+          "total": 998000000
+        },
+        "net_profit": 1128400000,
+        "profit_margin": 0.531
+      }
+    },
+    "realistic_assumptions": {
+      "premium_conversion_rate": 0.08,
+      "monthly_churn_rate": 0.05,
+      "b2b_penetration": "Fortune 500의 2%",
+      "expert_commission": 0.25,
+      "market_size": "정신건강 관리 필요 인구 800만명의 1%",
+      "growth_rate": "월 15% (업계 평균)"
+    },
+    "risk_scenarios": {
+      "pessimistic": {
+        "year_3_revenue": "1.5B KRW",
+        "factors": ["대기업 진입", "규제 강화", "경제 침체"]
+      },
+      "optimistic": {
+        "year_3_revenue": "3.2B KRW", 
+        "factors": ["정부 지원", "보험 적용", "해외 진출"]
+      }
+    }
+  },
+  
+  "marketing_strategy": {
+    "positioning": {
+      "primary": "전문성과 접근성을 모두 갖춘 멘탈 케어 파트너",
+      "differentiators": [
+        "AI와 전문가의 최적 조합",
+        "24/7 즉시 지원 가능",
+        "과학적 근거 기반 접근",
+        "한국인 정서에 최적화",
+        "합리적 가격"
+      ]
+    },
+    "target_segments": [
+      {
+        "name": "직장인 2030",
+        "size": 8000000,
+        "characteristics": [
+          "번아웃 위험군",
+          "자기계발 관심 높음",
+          "디지털 네이티브",
+          "구독 서비스 친숙"
+        ],
+        "acquisition_channels": [
+          "Instagram/Youtube 인플루언서",
+          "직장인 커뮤니티",
+          "기업 복지 프로그램"
+        ]
+      }
+    ],
+    "growth_tactics": {
+      "viral_features": [
+        "감정 공유 챌린지",
+        "가족/친구 초대 혜택",
+        "기업 단체 가입 할인"
+      ],
+      "retention_programs": [
+        "연속 기록 보상",
+        "레벨/뱃지 시스템",
+        "커뮤니티 활동 포인트"
+      ]
+    }
+  },
+  
+  "kpi_metrics": {
+    "user_metrics": [
+      {
+        "name": "MAU",
+        "target_year_1": 35000,
+        "growth_rate": 0.15
+      },
+      {
+        "name": "Premium Conversion Rate",
+        "target": 0.15,
+        "current": 0.08
+      },
+      {
+        "name": "User Retention (3month)",
+        "target": 0.60,
+        "benchmark": 0.45
+      }
+    ],
+    "business_metrics": [
+      {
+        "name": "MRR",
+        "target_year_1": 97250000,
+        "growth_rate": 0.20
+      },
+      {
+        "name": "CAC",
+        "target": 15000,
+        "payback_period_months": 3
+      },
+      {
+        "name": "LTV:CAC Ratio",
+        "target": 3.5,
+        "minimum": 3.0
+      }
+    ]
+  },
+  
+  "risk_mitigation": {
+    "regulatory_risks": [
+      {
+        "risk": "의료법 저촉",
+        "mitigation": "의료 행위 아닌 상담/코칭으로 포지셔닝"
+      },
+      {
+        "risk": "개인정보보호법",
+        "mitigation": "ISO 27001 인증, 데이터 암호화"
+      }
+    ],
+    "market_risks": [
+      {
+        "risk": "대기업 진출",
+        "mitigation": "니치 시장 선점, 전문성 강화"
+      }
+    ],
+    "operational_risks": [
+      {
+        "risk": "전문가 품질 관리",
+        "mitigation": "엄격한 검증, 지속적 교육"
+      }
+    ]
+  },
+  
+  "exit_strategy": {
+    "target_valuation": "1조원 (Year 5)",
+    "potential_acquirers": [
+      "글로벌 헬스케어 기업",
+      "국내 대기업 (삼성, 카카오, 네이버)",
+      "보험사",
+      "PE 펀드"
+    ],
+    "ipo_timeline": "Year 4-5"
+  }
+}

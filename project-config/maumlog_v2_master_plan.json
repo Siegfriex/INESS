@@ -1,0 +1,438 @@
+{
+  "meta": {
+    "version": "2.2.1",
+    "lastUpdated": "2025-07-27",
+    "author": "ARGO_Development_Commander",
+    "description": "마음로그 V2.2 마스터 플랜 - 모든 개발 결정의 단일 진실 공급원"
+  },
+  
+  "project_identity": {
+    "name": "마음로그 V2.2",
+    "tagline": "당신의 마음이 피어나는 공간",
+    "vision": "대한민국 1위 멘탈 케어 플랫폼",
+    "mission": "AI 기술과 전문가 네트워크를 통해 모든 사람이 건강한 마음을 가꿀 수 있도록 돕습니다",
+    "core_values": [
+      "사용자 프라이버시 우선",
+      "과학적 근거 기반 접근",
+      "접근성과 포용성",
+      "지속적인 혁신",
+      "사회적 책임"
+    ]
+  },
+  
+  "technical_stack": {
+    "frontend": {
+      "platform": "React Native",
+      "version": "0.72+",
+      "language": "TypeScript",
+      "navigation": "React Navigation v6",
+      "state_management": "Context API + useReducer",
+      "styling": "Design Token System",
+      "testing": "Jest + React Native Testing Library",
+      "build_tools": ["Metro", "Flipper", "React Native CLI"]
+    },
+    "backend": {
+      "platform": "Firebase",
+      "services": {
+        "authentication": "Firebase Auth",
+        "database": "Firestore",
+        "storage": "Firebase Storage",
+        "functions": "Cloud Functions",
+        "analytics": "Firebase Analytics",
+        "crashlytics": "Firebase Crashlytics",
+        "messaging": "Firebase Cloud Messaging"
+      },
+      "external_apis": [
+        "OpenAI GPT-4 (감정 분석)",
+        "Google Cloud Translation",
+        "Twilio (SMS/음성)",
+        "Stripe (결제)"
+      ]
+    },
+    "infrastructure": {
+      "hosting": "Firebase Hosting",
+      "cdn": "Firebase CDN",
+      "monitoring": "Firebase Performance",
+      "ci_cd": "GitHub Actions",
+      "code_quality": ["ESLint", "Prettier", "TypeScript", "SonarQube"]
+    }
+  },
+  
+  "design_system": {
+    "philosophy": "벚꽃의 성장 메타포를 통한 자기돌봄 여정",
+    "color_palette": {
+      "blossom": {
+        "50": "#FFF5F7",
+        "100": "#FFE4E9", 
+        "300": "#FFC4D1",
+        "500": "#FF8FA3",
+        "700": "#E85D75"
+      },
+      "sky": {
+        "100": "#E3F2FD",
+        "300": "#90CAF9", 
+        "500": "#42A5F5"
+      },
+      "growth": {
+        "100": "#E8F5E9",
+        "300": "#A5D6A7",
+        "500": "#66BB6A"
+      },
+      "earth": {
+        "300": "#BCAAA4",
+        "500": "#8D6E63"
+      }
+    },
+    "typography": {
+      "primary": "System",
+      "accent": "Noto Sans KR",
+      "scale": [12, 14, 16, 18, 20, 24, 30]
+    },
+    "components": {
+      "base_card": "감정/전문가/인사이트/위기 변형",
+      "action_button": "Primary/Secondary/Emergency/Text 변형",
+      "text_input": "Default/Filled 변형",
+      "micro_interactions": "터치 피드백, 애니메이션"
+    }
+  },
+  
+  "feature_architecture": {
+    "core_features": [
+      {
+        "name": "감정 체크인",
+        "priority": "P0",
+        "components": ["감정 선택", "강도 평가", "트리거 식별", "AI 분석"],
+        "offline_support": true,
+        "ai_integration": true
+      },
+      {
+        "name": "AI 인사이트",
+        "priority": "P0", 
+        "components": ["패턴 분석", "예측 모델", "개인화 추천", "성장 추적"],
+        "premium_feature": true,
+        "data_requirements": "최소 7일 데이터"
+      },
+      {
+        "name": "위기 대응",
+        "priority": "P0",
+        "components": ["위험 감지", "즉시 개입", "전문가 연결", "안전 계획"],
+        "response_time": "< 2분",
+        "availability": "24/7"
+      },
+      {
+        "name": "전문가 매칭",
+        "priority": "P1",
+        "components": ["AI 매칭", "예약 시스템", "화상 상담", "리뷰 시스템"],
+        "monetization": "수수료 20%",
+        "quality_assurance": "자격 검증 필수"
+      }
+    ],
+    "supporting_features": [
+      {
+        "name": "감정 일기",
+        "components": ["텍스트 에디터", "미디어 첨부", "프라이버시 설정"],
+        "ai_assistance": "작성 도우미"
+      },
+      {
+        "name": "커뮤니티",
+        "components": ["익명 공유", "챌린지", "상호 지원"],
+        "moderation": "AI + 인간 조합"
+      },
+      {
+        "name": "데이터 프라이버시",
+        "components": ["동의 관리", "데이터 내보내기", "삭제 권리"],
+        "compliance": ["GDPR", "CCPA", "개인정보보호법"]
+      }
+    ]
+  },
+  
+  "data_models": {
+    "user": {
+      "core": ["uid", "profile", "settings", "subscription"],
+      "privacy": "개인식별정보 암호화",
+      "retention": "계정 삭제 시 완전 제거"
+    },
+    "emotion": {
+      "structure": ["감정타입", "강도", "트리거", "컨텍스트"],
+      "analysis": ["AI인사이트", "위험도", "키워드", "감정점수"],
+      "media": "클라우드 스토리지 URL 참조"
+    },
+    "journal": {
+      "content": ["제목", "본문", "감정연결", "태그"],
+      "analysis": ["단어수", "주요테마", "성장지표"],
+      "privacy": ["private", "shared", "anonymous"]
+    },
+    "expert": {
+      "profile": ["자격증명", "전문분야", "경력", "리뷰"],
+      "availability": "실시간 일정 관리",
+      "verification": "정기 자격 재검증"
+    }
+  },
+  
+  "business_model": {
+    "revenue_streams": [
+      {
+        "type": "B2C 프리미엄 구독",
+        "pricing": "월 9,900원 / 연 99,000원",
+        "target_conversion": "15%",
+        "features": ["무제한 AI 분석", "전문가 상담", "고급 인사이트"]
+      },
+      {
+        "type": "B2B 기업 솔루션", 
+        "pricing": "직원당 월 2,000-3,000원",
+        "target_market": "중견기업 이상",
+        "features": ["EAP 통합", "조직 분석", "익명 상담"]
+      },
+      {
+        "type": "전문가 매칭 수수료",
+        "commission": "20%",
+        "average_session": "80,000원",
+        "quality_control": "엄격한 검증 프로세스"
+      }
+    ],
+    "financial_projections": {
+      "year_1": {
+        "users": 50000,
+        "revenue": "11.67억원",
+        "profit_margin": "9.2%"
+      },
+      "year_2": {
+        "users": 200000,
+        "revenue": "46.44억원", 
+        "profit_margin": "52.6%"
+      },
+      "year_3": {
+        "users": 500000,
+        "revenue": "116.1억원",
+        "profit_margin": "63.5%"
+      }
+    }
+  },
+  
+  "development_roadmap": {
+    "phase_1_foundation": {
+      "duration": "2주",
+      "deliverables": [
+        "디자인 토큰 시스템",
+        "베이스 컴포넌트 라이브러리", 
+        "네비게이션 구조",
+        "감정 기록 기본 플로우"
+      ],
+      "success_criteria": [
+        "모든 베이스 컴포넌트 구현",
+        "디자인 시스템 100% 적용",
+        "기본 플로우 E2E 테스트 통과"
+      ]
+    },
+    "phase_2_core": {
+      "duration": "2주", 
+      "deliverables": [
+        "위기 대응 시스템",
+        "AI 투명성 기능",
+        "데이터 프라이버시 센터",
+        "오프라인 지원"
+      ],
+      "success_criteria": [
+        "위기 감지 2분 내 대응",
+        "오프라인 핵심 기능 작동",
+        "프라이버시 센터 GDPR 준수"
+      ]
+    },
+    "phase_3_advanced": {
+      "duration": "2주",
+      "deliverables": [
+        "전문가 연결 플랫폼",
+        "커뮤니티 기능", 
+        "고급 인사이트 분석",
+        "성능 튜닝"
+      ],
+      "success_criteria": [
+        "전문가 매칭 정확도 85%+",
+        "앱 성능 목표 달성",
+        "앱 스토어 배포 준비 완료"
+      ]
+    }
+  },
+  
+  "quality_standards": {
+    "code_quality": {
+      "test_coverage": "최소 80%",
+      "linting": "ESLint Airbnb 설정", 
+      "formatting": "Prettier 자동 포맷팅",
+      "type_safety": "TypeScript strict 모드",
+      "code_review": "모든 PR 필수 리뷰"
+    },
+    "performance_targets": {
+      "app_launch": "< 3초 (콜드 스타트)",
+      "api_response": "< 200ms (P95)",
+      "memory_usage": "< 512MB per function", 
+      "crash_rate": "< 0.1%",
+      "battery_optimization": "백그라운드 최적화"
+    },
+    "security_compliance": {
+      "data_encryption": "AES-256 (저장/전송)",
+      "authentication": "다중 인증 지원",
+      "audit_logging": "모든 민감 작업 로깅",
+      "regular_security_audit": "월간 보안 감사",
+      "compliance": ["ISO 27001", "SOC 2", "HIPAA-like"]
+    }
+  },
+  
+  "user_experience": {
+    "accessibility": {
+      "standard": "WCAG 2.1 Level AA",
+      "features": ["음성 내비게이션", "고대비 모드", "폰트 크기 조절", "스크린 리더"],
+      "testing": "접근성 전문가 검토"
+    },
+    "internationalization": {
+      "primary": "한국어",
+      "planned": ["영어", "일본어", "중국어"],
+      "framework": "react-i18next",
+      "cultural_adaptation": "각 지역 정서 반영"
+    },
+    "personalization": {
+      "onboarding": "개인 맞춤 설정 (5-7분)",
+      "ai_learning": "사용 패턴 학습 및 적응",
+      "content_curation": "개인 관심사 기반 추천",
+      "notification_optimization": "최적 시간 학습"
+    }
+  },
+  
+  "operational_procedures": {
+    "crisis_management": {
+      "detection_triggers": ["위험 키워드", "감정 강도", "사용자 요청"],
+      "response_protocol": [
+        "자동 위험도 평가",
+        "즉시 개입 도구 제공", 
+        "전문가 연결",
+        "응급 서비스 연계"
+      ],
+      "escalation_matrix": "위험도별 대응 절차",
+      "training_program": "상담사 정기 교육"
+    },
+    "content_moderation": {
+      "ai_pre_screening": "부적절 콘텐츠 자동 감지",
+      "human_review": "민감 콘텐츠 전문가 검토",
+      "community_reporting": "사용자 신고 시스템",
+      "appeal_process": "조치 이의제기 절차"
+    },
+    "data_governance": {
+      "data_lifecycle": "수집 → 처리 → 저장 → 삭제",
+      "retention_policy": "개인 데이터 3년 보관",
+      "anonymization": "연구 목적 데이터 익명화",
+      "consent_management": "동적 동의 관리 시스템"
+    }
+  },
+  
+  "monitoring_and_analytics": {
+    "technical_metrics": [
+      "앱 성능 (로딩 시간, 크래시율)",
+      "API 응답 시간 및 에러율",
+      "서버 리소스 사용률",
+      "데이터베이스 성능"
+    ],
+    "business_metrics": [
+      "DAU/MAU (일간/월간 활성 사용자)",
+      "체크인율 (일일 감정 기록률)",
+      "프리미엄 전환율",
+      "사용자 리텐션 (7일/30일)"
+    ],
+    "health_metrics": [
+      "위기 상황 대응 시간",
+      "전문가 매칭 성공률", 
+      "사용자 만족도 점수",
+      "상담 효과성 지표"
+    ],
+    "tools": {
+      "app_analytics": "Firebase Analytics",
+      "crash_reporting": "Firebase Crashlytics",
+      "performance": "Firebase Performance",
+      "business_intelligence": "Google Analytics 4",
+      "custom_dashboard": "자체 구축 대시보드"
+    }
+  },
+  
+  "risk_management": {
+    "technical_risks": [
+      {
+        "risk": "AI 모델 편향성",
+        "impact": "High",
+        "mitigation": "다양한 데이터셋 훈련, 정기 편향성 검사"
+      },
+      {
+        "risk": "확장성 문제",
+        "impact": "Medium", 
+        "mitigation": "마이크로서비스 아키텍처, 자동 스케일링"
+      },
+      {
+        "risk": "데이터 보안 침해",
+        "impact": "High",
+        "mitigation": "다층 보안, 정기 침투 테스트"
+      }
+    ],
+    "business_risks": [
+      {
+        "risk": "규제 변경",
+        "impact": "High",
+        "mitigation": "법무팀 상시 모니터링, 컴플라이언스 자동화"
+      },
+      {
+        "risk": "경쟁사 진입",
+        "impact": "Medium",
+        "mitigation": "차별화된 가치 제안, 네트워크 효과 강화"
+      }
+    ],
+    "operational_risks": [
+      {
+        "risk": "전문가 품질 관리",
+        "impact": "High", 
+        "mitigation": "엄격한 검증 프로세스, 지속적 교육"
+      },
+      {
+        "risk": "사용자 안전 사고",
+        "impact": "High",
+        "mitigation": "24/7 모니터링, 즉시 대응 프로토콜"
+      }
+    ]
+  },
+  
+  "success_metrics": {
+    "launch_criteria": {
+      "technical": [
+        "모든 핵심 기능 구현 완료",
+        "성능 목표 달성",
+        "보안 감사 통과",
+        "앱 스토어 승인"
+      ],
+      "business": [
+        "베타 테스터 만족도 4.5+",
+        "핵심 사용자 플로우 95% 완료율",
+        "위기 대응 시스템 검증 완료"
+      ]
+    },
+    "growth_milestones": {
+      "3개월": "사용자 50,000명, 프리미엄 전환율 10%+",
+      "6개월": "사용자 100,000명, B2B 파일럿 완료",
+      "1년": "사용자 200,000명, 수익성 달성",
+      "2년": "사용자 400,000명, 해외 진출 준비"
+    }
+  },
+  
+  "future_roadmap": {
+    "short_term": [
+      "Apple Watch/Wear OS 앱",
+      "음성 감정 분석 고도화",
+      "가족 계정 연동 강화"
+    ],
+    "medium_term": [
+      "VR/AR 치료 도구 통합",
+      "IoT 디바이스 연동",
+      "게이미피케이션 강화"
+    ],
+    "long_term": [
+      "뇌과학 기반 감정 인식",
+      "예측 모델 고도화",
+      "글로벌 플랫폼 확장"
+    ]
+  }
+}

@@ -1,0 +1,189 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // 사용자 프로필 - 본인만 읽기/쓰기
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // 공개 프로필 정보 (익명 공유용)
+      match /public/{document=**} {
+        allow read: if request.auth != null;
+      }
+      
+      // 개인 감정 기록
+      match /emotions/{emotionId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+        
+        // 데이터 검증
+        allow create: if request.auth != null 
+          && request.auth.uid == userId
+          && validateEmotionData(request.resource.data);
+      }
+      
+      // 일기 데이터
+      match /journals/{journalId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+        
+        // 공유된 일기 (익명)
+        allow read: if request.auth != null 
+          && resource.data.privacy == 'shared'
+          && resource.data.userId != request.auth.uid;
+      }
+      
+      // 위기 상황 기록 (강화된 접근 제어)
+      match /crisis/{crisisId} {
+        allow read, write: if request.auth != null && request.auth.uid == userId;
+        // 전문가는 활성 세션 중에만 접근 가능
+        allow read: if request.auth != null 
+          && isExpert(request.auth.uid)
+          && resource.data.expertConsent == true
+          && hasActiveSession(request.auth.uid, userId)
+          && isWithinSessionTimeframe(resource.data.timestamp);
+        // 응급 상황 시 자동 접근 (감사 로그 필수)
+        allow read: if request.auth != null
+          && isEmergencyResponder(request.auth.uid)
+          && resource.data.riskLevel == 'crisis'
+          && logEmergencyAccess(request.auth.uid, crisisId);
+      }
+    }
+    
+    // 전문가 프로필
+    match /experts/{expertId} {
+      // 공개 정보는 인증된 사용자 누구나 조회 가능
+      allow read: if request.auth != null;
+      // 본인만 수정 가능
+      allow write: if request.auth != null && request.auth.uid == expertId;
+      
+      // 전문가 검증 상태
+      match /verification/{document=**} {
+        allow read: if request.auth != null && request.auth.uid == expertId;
+        allow write: if isAdmin(request.auth.uid);
+      }
+    }
+    
+    // 상담 세션 (시간 제한 및 감사 로그)
+    match /sessions/{sessionId} {
+      allow read, write: if request.auth != null 
+        && (request.auth.uid == resource.data.userId 
+            || request.auth.uid == resource.data.expertId)
+        && isSessionActive(resource.data);
+      
+      // 세션 종료 후 제한된 접근 (30일)
+      allow read: if request.auth != null
+        && (request.auth.uid == resource.data.userId 
+            || request.auth.uid == resource.data.expertId)
+        && isWithinRetentionPeriod(resource.data.endTime, 30);
+      
+      // 세션 메시지 (종료 후 암호화)
+      match /messages/{messageId} {
+        allow read, write: if request.auth != null 
+          && (request.auth.uid == resource.data.senderId 
+              || request.auth.uid == resource.data.receiverId)
+          && isSessionActive(getSessionData(sessionId));
+        
+        // 세션 종료 후에는 요약만 접근 가능
+        allow read: if request.auth != null
+          && (request.auth.uid == resource.data.senderId 
+              || request.auth.uid == resource.data.receiverId)
+          && resource.data.type == 'summary';
+      }
+    }
+    
+    // 공개 컨텐츠 (교육 자료, 가이드 등)
+    match /public_content/{contentId} {
+      allow read: if request.auth != null;
+      allow write: if isAdmin(request.auth.uid) || isExpert(request.auth.uid);
+    }
+    
+    // 커뮤니티 (익명 공유)
+    match /community/{postId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null 
+        && validateCommunityPost(request.resource.data);
+      allow update, delete: if request.auth != null 
+        && request.auth.uid == resource.data.authorId;
+    }
+    
+    // 신고 및 모더레이션
+    match /reports/{reportId} {
+      allow create: if request.auth != null;
+      allow read, write: if isAdmin(request.auth.uid);
+    }
+    
+    // 시스템 설정 (관리자만)
+    match /system/{document=**} {
+      allow read, write: if isAdmin(request.auth.uid);
+    }
+    
+    // 헬퍼 함수들
+    function isAdmin(uid) {
+      return exists(/databases/$(database)/documents/admins/$(uid));
+    }
+    
+    function isExpert(uid) {
+      return exists(/databases/$(database)/documents/experts/$(uid)) 
+        && get(/databases/$(database)/documents/experts/$(uid)).data.verified == true;
+    }
+    
+    function validateEmotionData(data) {
+      return data.keys().hasAll(['emotion', 'timestamp', 'intensity'])
+        && data.emotion is string
+        && data.intensity is number
+        && data.intensity >= 1 
+        && data.intensity <= 10
+        && data.timestamp is timestamp
+        && (!data.keys().hasAny(['sensitiveKeywords']) 
+            || data.sensitiveKeywords.size() <= 10)
+        && validateContentLength(data);
+    }
+    
+    function validateContentLength(data) {
+      return (!data.keys().hasAny(['content']) 
+              || data.content.size() <= 10000)
+        && (!data.keys().hasAny(['voice']) 
+            || data.voice.size() <= 50000000); // 50MB
+    }
+    
+    function hasActiveSession(expertId, userId) {
+      return exists(/databases/$(database)/documents/sessions/$(expertId + '_' + userId))
+        && get(/databases/$(database)/documents/sessions/$(expertId + '_' + userId)).data.status == 'active';
+    }
+    
+    function isWithinSessionTimeframe(timestamp) {
+      return timestamp.toMillis() > (request.time.toMillis() - 7200000); // 2시간 이내
+    }
+    
+    function isEmergencyResponder(uid) {
+      return exists(/databases/$(database)/documents/emergency_responders/$(uid))
+        && get(/databases/$(database)/documents/emergency_responders/$(uid)).data.verified == true;
+    }
+    
+    function logEmergencyAccess(uid, crisisId) {
+      // 실제로는 Cloud Function에서 감사 로그 생성
+      return true;
+    }
+    
+    function isSessionActive(sessionData) {
+      return sessionData.status == 'active' 
+        && sessionData.endTime == null;
+    }
+    
+    function isWithinRetentionPeriod(endTime, days) {
+      return endTime != null 
+        && endTime.toMillis() > (request.time.toMillis() - (days * 86400000));
+    }
+    
+    function getSessionData(sessionId) {
+      return get(/databases/$(database)/documents/sessions/$(sessionId)).data;
+    }
+    
+    function validateCommunityPost(data) {
+      return data.keys().hasAll(['content', 'timestamp', 'authorId'])
+        && data.content is string
+        && data.content.size() > 0
+        && data.content.size() <= 1000
+        && data.authorId == request.auth.uid;
+    }
+  }
+}

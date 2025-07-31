@@ -1,0 +1,353 @@
+{
+    "project_metadata": {
+      "name": "마음로그 V2.2",
+      "codename": "ARGO_V3.1",
+      "version": "2.2.0",
+      "created_by": "INESS S&R",
+      "project_lead": "류지환",
+      "created_date": "2025-07-26",
+      "document_type": "master_operational_plan"
+    },
+    
+    "executive_summary": {
+      "vision": "AI 기반 하이브리드 멘탈케어 플랫폼",
+      "mission": "자기돌봄 중심의 감정 관리와 전문가 연계 서비스 제공",
+      "core_value": "나를 이해하는 첫 걸음",
+      "development_model": "Single-Developer + Multi-AI",
+      "cost_efficiency": {
+        "traditional_cost": "연간 4.1억원",
+        "ai_model_cost": "연간 8,600만원",
+        "cost_reduction": "78.9%",
+        "productivity_increase": "300-400%"
+      }
+    },
+    
+    "market_analysis": {
+      "market_size": "1.2조원 (2024년 기준)",
+      "target_audience": {
+        "primary": "20-30대 여성",
+        "characteristics": [
+          "일상적 감정 관리 니즈",
+          "자기돌봄에 대한 높은 관심",
+          "전문 상담까지는 필요 없는 중간 영역"
+        ]
+      },
+      "unmet_needs": [
+        "지속가능한 자기돌봄 루틴",
+        "감정 패턴에 대한 객관적 이해",
+        "적절한 전문가 연결 타이밍"
+      ],
+      "competitive_advantages": [
+        "자기돌봄 중심 AI 동반자",
+        "AI 브리핑 리포트 시스템",
+        "온오프라인 통합 커뮤니티"
+      ]
+    },
+    
+    "product_design": {
+      "core_features": {
+        "ai_emotion_coaching": {
+          "description": "공감과 인정 기반 AI 응답",
+          "modes": {
+            "insight_mode": {
+              "condition": "emotionScore > -0.25",
+              "function": "패턴 인식 및 성찰적 질문"
+            },
+            "coping_mode": {
+              "condition": "emotionScore <= -0.25 AND intensity > 0.8",
+              "function": "즉시적 감정 조절 도구"
+            }
+          }
+        },
+        "personalized_routine": {
+          "structure": {
+            "morning": "5분 의식",
+            "lunch": "3분 체크인",
+            "evening": "10분 마무리"
+          }
+        },
+        "expert_connection": {
+          "ai_briefing_report": {
+            "components": [
+              "클라이언트 기본 정보",
+              "감정적 특성 요약",
+              "핵심 주제 및 서사",
+              "최근 감정 변화 타임라인",
+              "위기 및 위험 평가",
+              "AI 제안 탐색 영역"
+            ]
+          },
+          "trigger_criteria": [
+            "만성적 부정 감정 지속",
+            "위기 키워드 감지",
+            "감정 변동성 급증",
+            "사용자 직접 요청"
+          ]
+        },
+        "community_ecosystem": {
+          "phase_1": "앱 내 디지털 커뮤니티",
+          "phase_2": "하이브리드 이벤트",
+          "phase_3": "마음로그 라운지"
+        }
+      }
+    },
+    
+    "development_strategy": {
+      "ai_tools": {
+        "claude_projects": {
+          "count": 5,
+          "modules": [
+            "AI 아키텍처",
+            "감정 코칭 시스템",
+            "데이터 분석",
+            "UI/UX 디자인",
+            "백엔드 인프라"
+          ],
+          "monthly_cost": "$100"
+        },
+        "gemini_ai": {
+          "role": "중앙 전략 어드바이저 (LOGOS PRIME)",
+          "features": ["AI Studio", "Code Assist"],
+          "monthly_cost": "$19"
+        },
+        "claude_code": {
+          "mode": "터미널 에이전트",
+          "monthly_cost": "$20"
+        },
+        "cursor_ai": {
+          "role": "메인 개발 환경",
+          "monthly_cost": "$20"
+        },
+        "firebase_idx": {
+          "role": "클라우드 리소스",
+          "monthly_cost": "$50"
+        }
+      },
+      "total_ai_cost": {
+        "monthly": "$209",
+        "yearly": "$2,508"
+      },
+      "development_phases": {
+        "phase_1": {
+          "duration": "Month 1-4.5",
+          "environment": "Firebase IDX",
+          "focus": [
+            "Cloud Functions 백엔드",
+            "Firestore 데이터 모델",
+            "Gemini AI API 통합",
+            "Authentication 시스템",
+            "AI 브리핑 리포트 로직"
+          ]
+        },
+        "phase_2": {
+          "duration": "Month 4.5-6",
+          "environment": "Hybrid",
+          "focus": [
+            "React Native 앱 개발",
+            "UI/UX 구현",
+            "모바일 특화 기능",
+            "통합 테스트"
+          ]
+        },
+        "phase_3": {
+          "duration": "Month 6+",
+          "environment": "Cursor AI",
+          "focus": [
+            "시스템 통합 최적화",
+            "고급 AI 기능",
+            "커뮤니티 기능",
+            "성능 최적화"
+          ]
+        }
+      }
+    },
+    
+    "technical_architecture": {
+      "microservices": [
+        {
+          "name": "Authentication Service",
+          "responsibility": "사용자 인증 및 권한 관리",
+          "technology": "Firebase Auth"
+        },
+        {
+          "name": "Emotion Entry Service",
+          "responsibility": "감정 데이터 수집 및 검증",
+          "sla": "< 200ms response"
+        },
+        {
+          "name": "AI Analysis Service",
+          "responsibility": "감정 분석 및 패턴 인식",
+          "sla": "< 2s analysis"
+        },
+        {
+          "name": "Crisis Response Service",
+          "responsibility": "위기 감지 및 대응",
+          "priority": "HIGHEST"
+        },
+        {
+          "name": "Data Privacy Service",
+          "responsibility": "암호화 및 GDPR 준수",
+          "encryption": "AES-256"
+        },
+        {
+          "name": "Insights Generation Service",
+          "responsibility": "장기 패턴 분석",
+          "technology": "Vertex AI"
+        },
+        {
+          "name": "Notification Service",
+          "responsibility": "멀티채널 알림",
+          "channels": ["Push", "Email", "SMS"]
+        }
+      ],
+      "data_pipeline": {
+        "stages": [
+          "수집 (Collection)",
+          "검증 (Validation)",
+          "분석 (Analysis)",
+          "저장 (Storage)",
+          "응답 (Response)"
+        ],
+        "performance_targets": {
+          "concurrent_users": 10000,
+          "api_latency_p95": "< 200ms",
+          "cold_start": "< 3s"
+        }
+      },
+      "security": {
+        "encryption": {
+          "in_transit": "TLS 1.3",
+          "at_rest": "AES-256"
+        },
+        "compliance": ["GDPR", "KISA"],
+        "key_management": "Cloud KMS"
+      }
+    },
+    
+    "business_model": {
+      "revenue_streams": {
+        "b2c": {
+          "free_tier": {
+            "features": ["월 20회 일기", "기본 AI 통찰"],
+            "conversion_target": "15%"
+          },
+          "premium": {
+            "price": "월 9,900원",
+            "features": ["무제한 AI 코칭", "고급 분석"]
+          },
+          "hybrid_care": {
+            "price": "월 49,000원",
+            "features": ["전문가 상담 연계"]
+          }
+        },
+        "b2b": {
+          "eap_service": {
+            "base_fee": "직원당 월 3,000원",
+            "session_fee": "50,000원/회"
+          }
+        },
+        "offline": {
+          "workshops": "30,000-50,000원/회",
+          "lounge_membership": "월 150,000원"
+        }
+      },
+      "financial_projections": {
+        "month_6": {
+          "users": 300,
+          "revenue": "월 1,500만원"
+        },
+        "month_12": {
+          "users": 1500,
+          "revenue": "월 3,000만원"
+        },
+        "month_18": {
+          "users": 3000,
+          "b2b_clients": 3,
+          "revenue": "월 5,000만원"
+        }
+      }
+    },
+    
+    "development_guidelines": {
+      "code_standards": {
+        "language": "TypeScript",
+        "style": "Airbnb ESLint",
+        "testing": "Jest (80% coverage)",
+        "documentation": "JSDoc"
+      },
+      "api_design": {
+        "pattern": "RESTful + GraphQL",
+        "versioning": "Semantic Versioning",
+        "authentication": "Bearer Token"
+      },
+      "deployment": {
+        "strategy": "Blue-Green",
+        "ci_cd": "GitHub Actions",
+        "environments": ["dev", "staging", "prod"]
+      }
+    },
+    
+    "risk_management": {
+      "technical_risks": {
+        "ai_dependency": {
+          "mitigation": "Multi-provider strategy",
+          "fallback": "48시간 내 대체 서비스 전환"
+        },
+        "single_developer": {
+          "mitigation": "상세 문서화 및 자동화",
+          "backup": "AI 에이전트 자율 운영 체계"
+        }
+      },
+      "business_risks": {
+        "competition": {
+          "mitigation": "AI 브리핑 리포트 IP 확보",
+          "strategy": "First Mover Advantage"
+        },
+        "regulation": {
+          "mitigation": "의료행위 구분 명확화",
+          "compliance": "법률 자문 체계"
+        }
+      }
+    },
+    
+    "success_metrics": {
+      "development": {
+        "mvp_launch": "6개월",
+        "cost_reduction": "78.9%",
+        "productivity": "300-400% 향상"
+      },
+      "business": {
+        "break_even": "8개월",
+        "roi_18months": "1,149%",
+        "user_retention": "> 60%"
+      },
+      "quality": {
+        "ai_accuracy": "> 85%",
+        "user_satisfaction": "> 4.5/5",
+        "crisis_response_time": "< 5분"
+      }
+    },
+    
+    "implementation_priorities": {
+      "week_1_2": [
+        "Firebase 프로젝트 설정",
+        "기본 인증 시스템",
+        "Firestore 스키마 설계"
+      ],
+      "week_3_4": [
+        "감정 입력 API",
+        "AI 분석 통합",
+        "기본 보안 구현"
+      ],
+      "week_5_8": [
+        "AI 브리핑 리포트",
+        "위기 대응 시스템",
+        "데이터 파이프라인"
+      ],
+      "week_9_12": [
+        "React Native 설정",
+        "UI 컴포넌트 개발",
+        "통합 테스트"
+      ]
+    }
+  }

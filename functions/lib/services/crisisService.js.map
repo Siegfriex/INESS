@@ -1,0 +1,1 @@
+{"version":3,"file":"crisisService.js","sourceRoot":"","sources":["../../src/services/crisisService.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,8DAAgD;AAEnC,QAAA,eAAe,GAAG,SAAS,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC,GAAG,EAAE,GAAG,EAAE,EAAE;IACpE,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,OAAO,EAAE,0BAA0B,EAAE,CAAC,CAAC;AAChE,CAAC,CAAC,CAAC"}

@@ -1,0 +1,27 @@
+{
+  "projects": {
+    "default": "maumlog-dev-env",
+    "development": "maumlog-dev-env", 
+    "staging": "maumlog-staging-env",
+    "production": "maumlog-prod-env"
+  },
+  "targets": {
+    "maumlog-dev-env": {
+      "hosting": {
+        "app": ["maumlog-dev-app"]
+      }
+    },
+    "maumlog-staging-env": {
+      "hosting": {
+        "app": ["maumlog-staging-app"]
+      }
+    },
+    "maumlog-prod-env": {
+      "hosting": {
+        "app": ["maumlog-app"]
+      }
+    }
+  },
+  "etags": {},
+  "dataconnectEmulatorConfig": {}
+}

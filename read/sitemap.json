@@ -1,0 +1,244 @@
+{
+  "app_structure": {
+    "navigation_type": "bottom_tab",
+    "tabs": [
+      {
+        "id": "home",
+        "name": "오늘의 마음",
+        "icon": "cherry-blossom",
+        "position": 0,
+        "screens": [
+          {
+            "id": "home_main",
+            "name": "홈 메인",
+            "path": "/home",
+            "features": [
+              "오늘의 감정 체크인",
+              "벚꽃 성장 상태",
+              "AI 추천 활동",
+              "빠른 기록하기"
+            ],
+            "components": [
+              "EmotionCheckInCard",
+              "BlossomGrowthVisual",
+              "QuickActionButtons",
+              "DailyQuote"
+            ]
+          },
+          {
+            "id": "emotion_checkin",
+            "name": "감정 체크인",
+            "path": "/home/checkin",
+            "flow": [
+              "emotion_selection",
+              "intensity_rating",
+              "trigger_identification",
+              "physical_symptoms",
+              "ai_analysis"
+            ]
+          },
+          {
+            "id": "quick_record",
+            "name": "빠른 기록",
+            "path": "/home/quick-record",
+            "features": [
+              "음성 녹음",
+              "사진 첨부",
+              "간단 메모",
+              "자동 감정 태깅"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "journal",
+        "name": "기록",
+        "icon": "book",
+        "position": 1,
+        "screens": [
+          {
+            "id": "journal_main",
+            "name": "감정 일기",
+            "path": "/journal",
+            "features": [
+              "캘린더 뷰",
+              "타임라인 뷰",
+              "감정 필터",
+              "검색"
+            ]
+          },
+          {
+            "id": "journal_entry",
+            "name": "일기 작성",
+            "path": "/journal/write",
+            "features": [
+              "리치 텍스트 에디터",
+              "AI 작성 도우미",
+              "템플릿",
+              "자동 저장"
+            ]
+          },
+          {
+            "id": "journal_detail",
+            "name": "일기 상세",
+            "path": "/journal/detail/:id",
+            "features": [
+              "감정 분석 결과",
+              "AI 인사이트",
+              "수정/삭제",
+              "공유"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "insights",
+        "name": "인사이트",
+        "icon": "lightbulb",
+        "position": 2,
+        "screens": [
+          {
+            "id": "insights_main",
+            "name": "AI 인사이트",
+            "path": "/insights",
+            "features": [
+              "주간 리포트",
+              "월간 리포트",
+              "패턴 분석",
+              "성장 제안"
+            ]
+          },
+          {
+            "id": "growth_plan",
+            "name": "성장 계획",
+            "path": "/insights/growth-plan",
+            "features": [
+              "목표 설정",
+              "액션 플랜",
+              "진행 상황 추적",
+              "마일스톤 보상"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "safety",
+        "name": "안전망",
+        "icon": "shield",
+        "position": 3,
+        "screens": [
+          {
+            "id": "safety_main",
+            "name": "안전망 메인",
+            "path": "/safety",
+            "features": [
+              "위기 상황 체크",
+              "응급 연락처",
+              "대처 도구",
+              "전문가 연결"
+            ]
+          },
+          {
+            "id": "crisis_support",
+            "name": "위기 지원",
+            "path": "/safety/crisis",
+            "priority_features": [
+              "24/7 핫라인",
+              "즉시 연결",
+              "위치 기반 지원",
+              "응급 알림"
+            ]
+          },
+          {
+            "id": "coping_tools",
+            "name": "대처 도구",
+            "path": "/safety/tools",
+            "categories": [
+              "호흡 운동",
+              "그라운딩 기법",
+              "이완 운동"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "profile",
+        "name": "프로필",
+        "icon": "person",
+        "position": 4,
+        "screens": [
+          {
+            "id": "profile_main",
+            "name": "프로필 메인",
+            "path": "/profile",
+            "sections": [
+              "사용자 정보",
+              "벚꽃 정원",
+              "뱃지/업적",
+              "설정"
+            ]
+          },
+          {
+            "id": "settings",
+            "name": "설정",
+            "path": "/profile/settings",
+            "categories": [
+              "계정 관리",
+              "알림 설정",
+              "개인정보 보호",
+              "앱 설정"
+            ]
+          },
+          {
+            "id": "privacy_center",
+            "name": "개인정보 관리",
+            "path": "/profile/privacy",
+            "features": [
+              "데이터 사용 현황",
+              "권한 관리",
+              "데이터 삭제",
+              "투명성 리포트"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "user_flows": {
+    "onboarding": {
+      "steps": [
+        "welcome",
+        "permission_request",
+        "initial_assessment",
+        "goal_setting",
+        "personalization"
+      ],
+      "duration": "5-7 minutes"
+    },
+    "daily_checkin": {
+      "entry_points": ["home_main", "notification", "widget"],
+      "average_duration": "2-3 minutes"
+    },
+    "crisis_flow": {
+      "triggers": ["crisis_keywords", "emotion_intensity", "user_request"],
+      "priority": "highest"
+    }
+  },
+  "navigation_rules": {
+    "auth_required": [
+      "journal/*",
+      "insights/*",
+      "profile/*"
+    ],
+    "premium_required": [
+      "insights/detail/monthly_report",
+      "expert_network",
+      "ai_coach"
+    ],
+    "offline_available": [
+      "journal_main",
+      "coping_tools",
+      "emergency_contacts"
+    ]
+  }
+}

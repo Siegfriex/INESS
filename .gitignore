@@ -1,0 +1,19 @@
+# Environments
+.env
+.env*.local
+*.env
+
+# Firebase
+firebaseservice.env
+.firebase/
+*-debug.log
+.runtimeconfig.json
+
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+package-lock.json
+
+# IDX
+.idx/

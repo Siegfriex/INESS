@@ -1,0 +1,1 @@
+{"version":3,"file":"notificationService.js","sourceRoot":"","sources":["../../src/services/notificationService.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA,8DAAgD;AAEnC,QAAA,gBAAgB,GAAG,SAAS,CAAC,KAAK,CAAC,SAAS,CAAC,CAAC,GAAG,EAAE,GAAG,EAAE,EAAE;IACrE,GAAG,CAAC,MAAM,CAAC,GAAG,CAAC,CAAC,IAAI,CAAC,EAAE,OAAO,EAAE,sBAAsB,EAAE,CAAC,CAAC;AAC5D,CAAC,CAAC,CAAC"}
